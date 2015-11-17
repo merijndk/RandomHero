@@ -64,6 +64,15 @@ function drawEyes(l,b,color){
   ctx.fillStyle = color;
   ctx.fillRect((canvasB-b/2)/2,(canvasL-l/2)/2+10,10,10);
   ctx.fillRect((canvasB+b/2)/2-10,(canvasL-l/2)/2+10,10,10);
+  if(l > 100){
+    ctx.fillStyle ="#ffffff";
+    ctx.fillRect((canvasB-b/2)/2-10,(canvasL-l/2)/2+10,10,10);
+    ctx.fillRect((canvasB+b/2)/2,(canvasL-l/2)/2+10,10,10);
+    ctx.fillRect((canvasB-b/2)/2-10,(canvasL-l/2)/2+20,10,10);
+    ctx.fillRect((canvasB+b/2)/2,(canvasL-l/2)/2+20,10,10)
+    ctx.fillRect((canvasB-b/2)/2,(canvasL-l/2)/2+20,10,10);
+    ctx.fillRect((canvasB+b/2)/2-10,(canvasL-l/2)/2+20,10,10)
+  }
 }
 
 function digitn(number, n){
