@@ -7,17 +7,16 @@ Math.seed = function(s) {
     var mask = 0xffffffff;
 
     return function() {
-      m_z = (36969 * (m_z & 65535) + (m_z >> 16)) & mask;
-      m_w = (18000 * (m_w & 65535) + (m_w >> 16)) & mask;
+      m_z = 36969 * (m_z & 65535) + (m_z >> 16);
+      m_w = 18000 * (m_w & 65535) + (m_w >> 16);
 
       var result = ((m_z << 16) + m_w) & mask;
-      result /= 4294967296;
 
-      return result + 0.5;
+      return result;
     }
 }
 
-var myRandomFunction = Math.seed(1234);
+var myRandomFunction = Math.seed(12344);
 var randomNumber = myRandomFunction();
 
 console.log(randomNumber);
@@ -59,20 +58,51 @@ function drawFace(l,b, color1, color2){
   ctx.fillRect((canvasB-b)/2+30,(canvasL+l)/2-20,b-60,10);
 }
 
-function drawEyes(l,b){
+function drawEyes(l,b,color){
   var c = document.getElementById("myCanvas");
   var ctx = c.getContext("2d");
-  ctx.fillStyle = "#000000";
+  ctx.fillStyle = color;
   ctx.fillRect((canvasB-b/2)/2,(canvasL-l/2)/2+10,10,10);
   ctx.fillRect((canvasB+b/2)/2-10,(canvasL-l/2)/2+10,10,10);
 }
 
-var baseB = 100;
-var baseL = 180;
-drawFace(baseL,baseB, "#000000", "#263b2a");
+function digitn(number, n){
+	return Math.floor((number*(10^n))%10);
+}
 
-drawFace(baseL-20,baseB-20, "#263b2a", "#375738");
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
 
-drawEyes(baseL,baseB);
+function colorfromnumber(n){
+	var r = (n*123)%255;
+	var g = (n*39)%255;
+	var b = (n*88)%255;
+	return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+randomNumber = Math.random();
+console.log(randomNumber);
+//eerste getal achter de komma maal 20 wordt breedte
+var baseB = (digitn(randomNumber,1)+1)*20;
+//tweede getal achter de komma maal 20 wordt lengte
+var baseL = (digitn(randomNumber,2)+1)*20;
+
+colorfromnumber(digitn(randomNumber,1));
+//buitenste rand
+var color_border1 = colorfromnumber(digitn(randomNumber,3));
+//binnenste rand
+var color_border2 = colorfromnumber(digitn(randomNumber,4));
+//invulling
+var color_interior = colorfromnumber(digitn(randomNumber,5));
+//ogen
+var color_eyes = colorfromnumber(digitn(randomNumber,6));
+
+drawFace(baseL, baseB, color_border1, color_border2);
+
+drawFace(baseL-20, baseB-20, color_border2, color_interior);
+
+drawEyes(baseL, baseB, color_eyes);
 
 
